@@ -1,0 +1,348 @@
+Ci1316 1sem2026  - trabalho 1 - versao PRELIMINAR - v0.1  
+---------------
+
+DATA da Entrega: aprox 3 semanas
+Local de entrega: UFPR Virtual
+Equipe de alunos:
+   Esse trabalho pode ser feito em grupo de NO MAXIMO dois alunos(as)
+
+----------------------    
+Historico:
+versao v0 versao PRELIMINAR (16abr26)
+versao v0.1 (adicionado um pequeno esclarecimento one eh indicado v0.1)
+             alem disso, a SELEÇÃO DE PIVÔS tem uma nova versao, 
+             mais simples, mas faz o mesmo efeito. v0.1
+     
+OBS: essa especificacao vai receber melhorias 
+     para melhor clareza das atividades a serem desenvovidas
+     mas aqui jah temos uma ideia inicial para inicio de trabalhos   
+--------------------------
+
+Nesse trabalho 1 vamos paralelizar a função abaixo,
+conforme essa especificacao inicial.
+O  TrabalHO foi dividido em PARTE A e PARTE B
+A ideia é fazer a parte A que pode ser aproveitada na parte B
+e assim podemos iniciar os trabalhos fazendo a parte A
+semcomplicar tudo agora com detalhes da parte B
+
+- As as funções devem ENCAPSULAR tudo
+  para a paralelização 
+  (conforme exemplo visto em aula para a redução).
+  
+  OU SEJA: voce DEVE basear suas soluçoes para as funcoes
+           abaixo tomando como base 
+           a solucao disponibilizada pelo prof. de reducao paralela com pool de threads
+
+- As suas novas soluceos devem ser feitas TAMBEM com pool de threads.
+
+- Voce pode fazer as experiencias se baseando nas planilhas feitas pelo prof.
+  (experiencias baseadas na planilha de reducao paralela com pool de threads)
+  adaptando suas experiencias para os casos 
+  
+- Para as experiencias:
+  
+  A quantidade de elementos para as experiencias:
+  Vamos especificar aqui em breve.
+  Tipicamente teremos:
+  - Vetor Input de 
+     1Milhao, 2Milhoees, 4Milhoes, 8Milhoes e 16Milhoes de elementos long long
+  - Fazer os graficos e tabelas nas planilhas que DEVENDO medir variando        (v1.3)
+    o numero de threads  1, 2, 3, ... até 8 threads  
+      (ATENCAO: fazer até 8 threads, mesmo que a maquina usada nao tenha tantos cores)
+           
+     
+  - Como vamos gerar os vetores ?
+    Vamos gerar numeros aleatorios para colocar nesses vetores
+
+      
+   * Minimizar efeitos de cache nas mediçoes:
+     Como faremos as medicoes pelo menos 10 vezes para tirar medias,
+     *conforme feito na versao da reduçao paralela*, 
+     devemos fazer a troca de valores no cache a cada de medicao diferente
+     
+     Ver mais explicacoes no final desse arquivo (v1.3)
+   
+       
+
+O que entregar?
+---------------
+
+- 2 codigos (aPENAS 1 aquivo de codigo  para cada parte do trabalho)
+   . por enquanto somente o codigo da parte A
+     DEPOIS as partes A e B deve estar em DOIS arquivos de codigo apenas
+     cada parte terah um programa principal diferente
+     pois a parte A vai testar apenas o histograma paralelo
+     
+   . script para compilar
+   . scripts para rodar os experimentos (pode se basear nos scripts do prof)     
+   . duas planilhas, uma para a parte A, outra para a parte B 
+       (DEVE se basear nas planilhas do prof de reducao paralela com pool de threads)
+       adaptando a planilha para as nossas experiencias aqui descritas
+       
+       ATENCAO: A vazao deve ser adaptada: 
+             
+             
+       ATENCAO 2: 
+            - voce deve incluir na PRIMEIRA pagina das planilhas a saida do comando lscpu para a maquina usada 
+             - voce deve incluir na PRIMEIRA pagina das planilhas a saida do comando lstopo para a maquina usada 
+                 (eu coloquei o binario desse programa na ufpr virtual, basta baixar setar bit de execucao e rodar 
+                 com parametro do nume de arquivo.pdf ele gera o PDF da topologia do processador)
+        
+        
+////////////////////////////        
+o programa a ser entregue:
+--------------------------
+
+parallel-histo <nelements> <npivots> <nbins> <nthreads> <nr>
+
+Eh um algoritmo paralelo com Pthreads escrito em C
+para calcular histogramas de um conjunto de dados
+
+SINOPSE
+-------
+  parallel-histo <nelements> <npivots> <nbins> <nthreads> <nr>
+
+
+PARÂMETROS DE ENTRADA
+---------------------
+
+  nelements
+      Tipo    : inteiro longo (long long)
+      Restrição: > 0
+      Descrição: Número de elementos long long no array de entrada.
+                 O array é gerado aleatoriamente a cada round, cobrindo
+                 todo o intervalo de long long (incluindo negativos).
+
+  npivots
+      Tipo    : inteiro
+      Restrição: >= 2, >= nbins, <= nelements
+      Descrição: Número de pivôs amostrados para construir os limites
+                 dos bins. Mais pivôs produzem bins mais equilibrados,
+                 ao custo de maior tempo de construção.
+
+  nbins
+      Tipo    : inteiro
+      Restrição: >= 1
+      Descrição: Número de bins do histograma. Cada bin representa um
+                 intervalo [Limits[i], Limits[i+1]). O último bin é
+                 fechado à direita: [Limits[nbins-1], Limits[nbins]].
+
+  nthreads
+      Tipo    : inteiro
+      Restrição: >= 1
+      Descrição: Número de threads de trabalho para a versão paralela.
+                 O valor 1 executa sem criar threads extras (caminho
+                 serial puro, sem barreiras).
+
+  nr
+      Tipo    : inteiro
+      Restrição: >= 1
+      Descrição: Número de repetições. Cada round gera um novo array
+                 aleatório independente, recalcula os limites e executa
+                 o histograma. Usado para obter médias estáveis de tempo.
+
+
+
+SELEÇÃO DE PIVÔS (nova versao, mais simples, mas faz o mesmo efeito. v0.1)
+----------------
+
+      Amostragem por passo com deslocamento aleatório independente por
+      pivô (jitter), lidando bem com  padroes de entrada com dados periódicos.
+
+      - stride   = nelements / npivots
+      - jitter_i = número aleatório em [0, stride),
+                   independente para cada i
+      - Pivots[i] = data[ i × stride + jitter_i ]
+      - Depois de amnostrados os Pivots DEVEM ser ordenados
+
+
+O QUE O PROGRAMA CALCULA
+-------------------------
+
+Para cada round r = 1..nr o programa executa os seguintes passos:
+
+  Passo 1 — Geração do input
+      Gera nelements valores long long aleatórios cobrindo
+      uniformemente todo o intervalo [LLONG_MIN, LLONG_MAX]. Um segundo
+      array idêntico (data2) é criado por memcpy — os dois arrays são
+      fisicamente separados na memória para garantir que cada pool de
+      threads leia da RAM, não do cache aquecido pelo outro.
+
+  Passo 2 — Construção dos limites (serial)
+      Cronometrada independentemente. Produz limits[0..nbins] pelo modo
+      escolhido. Este array é compartilhado por ambos os pools —
+      garante que ambas as versões (1 thread e N threads) calculem o
+      histograma sobre os mesmos intervalos.
+
+  Passo 3 — Evicção de cache
+      Entre cada operação cronometrada, um buffer de 3 × LLC bytes é
+      lido sequencialmente para garantir que data e data2 sejam lidos
+      da RAM (não do cache) durante as medições.
+
+  Passo 4 — Histograma com 1 thread 
+      executa o histograma sobre data com 1 thread (o próprio
+      main, sem pthread extra). O tempo T(1 thr) é medido.
+
+  Passo 5 — Histograma com N threads (pool de threads)
+      um  pool de threads executa o histograma sobre data2 com nthreads threads
+      (incluindo main como thread trabalhadora - i.e. worker). O tempo T(N thr) é medido.
+
+  Passo 6 — Verificação de corretude
+      hist_1[b] deve ser igual a hist_n[b] para todo b. Um mismatch
+      indica bug no pool de threads ou na construção dos limites.
+
+
+O QUE O PROGRAMA REPORTA
+-------------------------
+
+  Por round (tabela):
+      T(bl-ser)  tempo de build_limits em segundos
+      T(1 thr)   tempo do histograma com 1 thread
+      T(N thr)   tempo do histograma com N threads
+      Speedup    razão T(1 thr) / T(N thr)
+      OK/FAIL    resultado da verificação de corretude
+
+  Apenas no round 1:
+      Os primeiros 8 bins são exibidos com seus limites e contagens,
+      para inspeção visual do equilíbrio das partições.
+
+  Sumário final (médias sobre nr rounds):
+      - Tempo médio de build_limits 
+      - Tempo médio com 1 thread e com N threads, em segundos e MEPS
+        (Mega Elementos Por Segundo)
+      - Speedup médio e eficiência paralela (speedup / nthreads × 100%)
+      - Resultado global de corretude
+
+
+CONSTRUÇÃO DOS LIMITES — DETALHES
+-----------------------------------
+
+  A função build_limits recebe o array de entrada e produz limits[],
+  seguindo três fases:
+
+  Fase 1 — Amostragem de pivôs
+      npivots valores são selecionados
+      do array de entrada e armazenados em pivots[].
+
+  Fase 2 — sort dos pivôs
+      Ordena pivots[0..npivots-1] em ordem crescente. Suporta valores negativos
+      do bit de sinal mantendo ordenação correta.
+
+  Fase 3 — Seleção dos limites
+      Seleciona nbins+1 entradas igualmente espaçadas do array de pivôs
+      ordenado como limits[]. Um passo de "empurrão suave" garante que limites
+      adjacentes sejam estritamente crescentes.
+      
+      O que o "empurrão suave" faz?
+O código percorre os limites da esquerda para a direita e, 
+sempre que encontra um limite que não é estritamente maior que o anterior, 
+força-o a ser exatamente Limits[k-1] + 1:
+
+for (int k = 1; k <= nbins; k++)
+    if (limits[k] <= limits[k - 1])
+        limits[k] = limits[k - 1] + 1;
+        
+O efeito é empurrar o limite para a direita o mínimo necessário 
+— daí o nome (empurrão suave).
+
+
+
+
+GARANTIA DE CACHE FRIO
+-----------------------
+
+  Um buffer de evicção de 3 × LLC bytes é alocado e pré-faultado
+  (memset) antes do loop de rounds. Entre cada par de medições
+  cronometradas, o buffer é lido sequencialmente para despejar data e
+  data2 de todos os níveis de cache, garantindo que ambas as execucoes de cada round
+  leiam sempre da RAM.
+
+  O fator 3× cobre: 1× para despejar data, 1× para despejar data2,
+  1× de margem para imperfeições de associatividade do cache real.
+
+
+EXEMPLO DE USO
+--------------
+
+  Compilar:
+      gcc -O3 -o parallel-histo parallel-histo.c -lpthread
+
+  1M elementos, 1024 pivôs, 32 bins, 8 threads, 10 rounds, rp:
+      ./parallel-histo 1000000 1024 32 8 10
+
+
+COMPLEXIDADE
+------------
+
+  Geração do input       : O(n)
+  Construção dos limites :
+      O(npivots) serial + O(npivots) caso use radix sort
+  Histograma paralelo    : O(n × log(nbins) / nthreads)
+  Redução                : O(nbins × nthreads)
+  Evicção de cache       : O(LLC) por medição
+
+  Espaço extra           : O(nbins × nthreads) histogramas privados
+                         + O(npivots) array de pivôs e scratch de sort
+                         + O(3 × LLC) buffer de evicção
+
+
+RESTRIÇÕES E NOTAS
+-------------------
+
+  - O programa requer Linux (usa POSIX threads e C).
+  - npivots deve ser >= nbins para que a seleção de limites igualmente
+    espaçados produza nbins+1 entradas distintas.
+  - Para nr ímpar, o efeito de cache warming não é perfeitamente
+    simétrico entre as medições; recomenda-se nr par >= 10 para médias
+    estáveis.
+  - SE usar radix sort, requer que todos os valores de pivôs sejam long long
+    com sinal; a ordenação correta de negativos é garantida por XOR do
+    bit mais significativo antes e depois da ordenação.
+
+========================================================================
+//////////////////////////////
+
+
+
+
+A FUNÇÂO a ser paralelizada
+---------------------------
+
+int parallel_histogram(
+    const long long  *data,        /* input array                          */
+    long long         nelements,   /* number of elements                   */
+    const long long  *limits,      /* bin boundaries, size nbins+1         */
+    int               nbins,       /* number of bins                       */
+    long long        *hist,        /* output histogram, size nbins         */
+    int               nthreads     /* number of threads (1 = serial path)  */
+);
+
+
+Especificação da funcao
+Pré-condições
+
+. data aponta para um array válido de nelements elementos long long
+. limits tem nbins+1 entradas em ordem estritamente crescente, já construídas ANTES de se chamar a funcao parallel_histo (v0.1)
+. hist aponta para um array de nbins elementos alocado pelo chamador
+.  nthreads >= 1
+
+Pós-condições
+
+. hist[b] contém o número de elementos v em data tais que limits[b] <= v < limits[b+1], para b = 0..nbins-2
+. hist[nbins-1] inclui também os elementos iguais a limits[nbins] (o máximo — intervalo fechado à direita no último bin)
+. data e limits não são modificados
+. Retorna 0 em sucesso, -1 em erro (falha de alocação interna)
+
+Semântica de threads
+
+. Se nthreads == 1, executa serialmente sem criar threads
+. Se nthreads > 1, divide data em nthreads fatias iguais; cada thread acumula um histograma privado; o chamador reduz na saída — sem estado global, thread-safe para chamadas concorrentes com arrays distintos
+
+
+Complexidade
+
+. Tempo: O(nelements × log(nbins) / nthreads) — busca binária por elemento, paralelismo perfeito
+.  Espaço extra: O(nbins × nthreads) — histogramas privados por thread
+
+
+
