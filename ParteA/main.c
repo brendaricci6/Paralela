@@ -3,11 +3,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <limits.h>
+#include <time.h>
 
-#define LONG_MIN 1000
-#define LONG_MAX 100000
+
+//função que gera 64 bits aleatórios
+long long rand64(){
+    return ((long long)rand() << 48) ^
+            ((long long)rand() << 32) ^
+            ((long long) rand () << 16) ^
+            ((long long) rand());
+
+}
 
 int main (int argc, char **argv){
+
+    srand(time(NULL));
   
     //num de elementos no array de entrada
     int long long nElements = atoll(argv[1]);
@@ -39,37 +50,33 @@ int main (int argc, char **argv){
         return 1; 
     }
 
-    /*
-        Passo 1 — Geração do input
-      Gera nelements valores long long aleatórios cobrindo
-      uniformemente todo o intervalo [LLONG_MIN, LLONG_MAX]. Um segundo
-      array idêntico (data2) é criado por memcpy — os dois arrays são
-      fisicamente separados na memória para garantir que cada pool de
-      threads leia da RAM, não do cache aquecido pelo outro.
-    */
+    long long llc_size = 16 * 1024 * 1024; 
+    long long evict_size = 3 * llc_size;
+    char *evict_buffer = malloc(evict_size);
+    memset(evict_buffer, 0, evict_size);
 
-    //alocação dinâmica de data e dataCopy
-    long long *data = (long long *) malloc(nElements * sizeof(long long));
-    long long *dataCopy = (long long *) malloc(nElements * sizeof(long long));
+    // Arrays para guardar os resultados de cada thread
+    long long *hist_ser = malloc(nBins * sizeof(long long));
+    long long *hist_par = malloc(nBins * sizeof(long long));
+    long long *limits = malloc((nBins + 1) * sizeof(long long));
 
-    //preenchimento dos vetores aleatórios
-    for (long long i = 0; i < nElements; i++) {
-        // Gera valores entre MY_LONG_MIN e MY_LONG_MAX
-        data[i] = LONG_MIN + (rand() % (LONG_MAX - LONG_MIN + 1));
+    for (int r = 0; r < nRepeticoes; r++) {
+        //alocação dinâmica de data e dataCopy
+        long long *data = (long long *) malloc(nElements * sizeof(long long));
+        long long *dataCopy = (long long *) malloc(nElements * sizeof(long long));
+
+        for (long long i = 0; i < nElements; i++) {
+        //gera um valor que pode ser qualquer número entre LLONG_MIN e LLONG_MAX
+        data[i] = rand64(); 
+        }
+
+        //copia os dados 
+        memcpy(dataCopy, data, nElements * sizeof(long long));
+
+        
+
+        free(data);
+        free(dataCopy);
     }
-
-    //copia os dados 
-    memcpy(dataCopy, data, nElements * sizeof(long long));
-
-    /* 
-        Passo 2 — Construção dos limites (serial)
-      Cronometrada independentemente. Produz limits[0..nbins] pelo modo
-      escolhido. Este array é compartilhado por ambos os pools —
-      garante que ambas as versões (1 thread e N threads) calculem o
-      histograma sobre os mesmos intervalos.
-    */
-
-    free(data);
-    free(dataCopy);  
 
 }
