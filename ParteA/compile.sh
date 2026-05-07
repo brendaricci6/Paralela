@@ -2,14 +2,12 @@
 
 # Nome do arquivo de saída
 OUTPUT="parallel-histo"
-
-# Arquivo fonte (baseado no código fornecido)
 SOURCE="mainv2.c"
 
 echo "Compilando $SOURCE..."
 
-# Compilação com otimização O3 e suporte a pthreads
-gcc -O3 -o $OUTPUT $SOURCE -lpthread
+# Adicionado -std=gnu11 para garantir suporte a barreiras e extensões POSIX
+gcc -O3 -std=gnu11 -o $OUTPUT $SOURCE -lpthread
 
 if [ $? -eq 0 ]; then
     echo "Compilação concluída com sucesso: ./$OUTPUT"

@@ -1,4 +1,5 @@
-#define _POSIX_C_SOURCE 199309L
+#define _XOPEN_SOURCE 600
+#define _POSIX_C_SOURCE 200112L
 
 #include <limits.h>
 #include <pthread.h>
