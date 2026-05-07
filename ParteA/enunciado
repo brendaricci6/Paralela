@@ -1,29 +1,55 @@
-Ci1316 1sem2026  - trabalho 1 - versao PRELIMINAR - v0.1  
+Ci1316 1sem2026  - trabalho 1 - versao v0.2  
 ---------------
 
-DATA da Entrega: aprox 3 semanas
+DATA da Entrega: 14/maio (foram aprox 4 semanas!)
 Local de entrega: UFPR Virtual
 Equipe de alunos:
    Esse trabalho pode ser feito em grupo de NO MAXIMO dois alunos(as)
 
 ----------------------    
 Historico:
-versao v0 versao PRELIMINAR (16abr26)
-versao v0.1 (adicionado um pequeno esclarecimento one eh indicado v0.1)
+versao v0 versao PRELIMINAR (foi lançada em 16abr26)
+versao v0.1 (adicionado um pequeno esclarecimento onde eh indicado v0.1)
              alem disso, a SELEÇÃO DE PIVÔS tem uma nova versao, 
              mais simples, mas faz o mesmo efeito. v0.1
+             
+Na versao (v0.2) dessa especificacao adicionamos algumas exigencias 
+MAS
+tiramos a parte B do trabalho (só teremos a parte A)             
+
+versao (v0.2) - alteracoes indicadas com (v0.2) 
+   - adicionado a especificacao EXATA da saida do programa (ANEXO 1)
+   - definidas as quantidades de elementos nas experiencias 
+   - a sessao "Como vamos gerar os vetores ?" foi alterada
+   - A nova funcao de verificacao (melhorada) de resultados foi DADA pelo prof.
+     (estah no ANEXO 2 ao final dessa especificacao)
+     Voce DEVE usar essa funcao para verificar os resultados
+     e reportar erros, conforme especificado
+   - existe um novo parametro na linha de comando (-tb2)
+     SE usuario especificar a opcao -tb2 na linha de comando:
+     voce deve usar a funcao gen_test_data_balanced2 dada no ANEXO 4 para gerar os dados
+     em uma distribuicao "balanceada"
+     obs: -tb2 significa teste com entrada "balanceada"
+     CASO -tb2 NAO seja especificado os dados de entrada devem ser
+     numeros aleatorios long long gerados com a funcao rand64() dada.
+   - novo codigo para o empurrao suave
+   - o ANEXO 3 entrega dois geradores de numeros aleatorios
+        voce vai usar o rand64() do ANEXO 3 para gerar os dados de entrada.
+        voce vai usar o rand63() do ANEXO 3 no codigo de build_limits, 
+           pois rand63() eh mais rapida e serve no caso de build limits
+           para gerar cada jitter
+   - ANEXO 5 - prototipo da funcao build_limits foi dado nesse anexo       
+   
      
-OBS: essa especificacao vai receber melhorias 
-     para melhor clareza das atividades a serem desenvovidas
-     mas aqui jah temos uma ideia inicial para inicio de trabalhos   
+OBS: essa especificacao pode ainda receber melhorias 
+     todas as melhorias sao para melhor clareza das atividades a serem desenvovidas
+     OU facilitar os trabalhos
+
 --------------------------
 
 Nesse trabalho 1 vamos paralelizar a função abaixo,
 conforme essa especificacao inicial.
-O  TrabalHO foi dividido em PARTE A e PARTE B
-A ideia é fazer a parte A que pode ser aproveitada na parte B
-e assim podemos iniciar os trabalhos fazendo a parte A
-semcomplicar tudo agora com detalhes da parte B
+O  TrabalHO tera PARTE A somente (NAO teremos PARTE B v0.2)
 
 - As as funções devem ENCAPSULAR tudo
   para a paralelização 
@@ -42,40 +68,48 @@ semcomplicar tudo agora com detalhes da parte B
 - Para as experiencias:
   
   A quantidade de elementos para as experiencias:
-  Vamos especificar aqui em breve.
-  Tipicamente teremos:
+  Vamos especificar aqui:   (v0.2)
+  Teremos:
   - Vetor Input de 
-     1Milhao, 2Milhoees, 4Milhoes, 8Milhoes e 16Milhoes de elementos long long
-  - Fazer os graficos e tabelas nas planilhas que DEVENDO medir variando        (v1.3)
+     4Milhoes, 8Milhoes e 16Milhoes de elementos long long    (v0.2)
+  - Fazer os graficos e tabelas nas planilhas que DEVENDO medir variando        
     o numero de threads  1, 2, 3, ... até 8 threads  
       (ATENCAO: fazer até 8 threads, mesmo que a maquina usada nao tenha tantos cores)
            
      
-  - Como vamos gerar os vetores ?
+  - Como vamos gerar os vetores ?   (esse item inteiro foi mudado na v0.2)
     Vamos gerar numeros aleatorios para colocar nesses vetores
+    para gerar tais numeros long long o prof
+    entrega nos ANEXOs a funcao rand64() para randomizar os dados de entrada
+    e e o randomizador rand63() a ser usada na funcao build_limits
 
+    tambem
+     SE usuario especificar a opcao -tb2 na linha de comando:
+     voce deve usar a funcao gen_test_data_balanced2 dada no ANEXO 4 para gerar os dados
+     em uma distribuicao "balanceada"
+     obs: -tb2 significa teste com entrada "balanceada"
+     CASO -tb2 NAO seja especificado os dados de entrada devem ser
+     numeros aleatorios long long gerados com a funcao rand64() dada.
       
    * Minimizar efeitos de cache nas mediçoes:
      Como faremos as medicoes pelo menos 10 vezes para tirar medias,
      *conforme feito na versao da reduçao paralela*, 
      devemos fazer a troca de valores no cache a cada de medicao diferente
      
-     Ver mais explicacoes no final desse arquivo (v1.3)
+     Ver mais explicacoes no final desse arquivo 
    
        
 
 O que entregar?
 ---------------
 
-- 2 codigos (aPENAS 1 aquivo de codigo  para cada parte do trabalho)
-   . por enquanto somente o codigo da parte A
-     DEPOIS as partes A e B deve estar em DOIS arquivos de codigo apenas
-     cada parte terah um programa principal diferente
-     pois a parte A vai testar apenas o histograma paralelo
-     
+- 2 arquivos de codigos (ou seja, APENAS 1 aquivo de codigo SEU e o chronos.c do prof)
+   . por enquanto somente o codigo da parte A, nao teremos parte B
+          
    . script para compilar
-   . scripts para rodar os experimentos (pode se basear nos scripts do prof)     
-   . duas planilhas, uma para a parte A, outra para a parte B 
+   . scripts para rodar os experimentos (pode se basear nos scripts do prof)
+   . o seu RELATORIO em PDF   (v0.2)     
+   . Uma planilha, uma para a parte A, nao teremos parte B
        (DEVE se basear nas planilhas do prof de reducao paralela com pool de threads)
        adaptando a planilha para as nossas experiencias aqui descritas
        
@@ -93,7 +127,7 @@ O que entregar?
 o programa a ser entregue:
 --------------------------
 
-parallel-histo <nelements> <npivots> <nbins> <nthreads> <nr>
+parallel-histo <nelements> <npivots> <nbins> <nthreads> <nr> [-tb2]
 
 Eh um algoritmo paralelo com Pthreads escrito em C
 para calcular histogramas de um conjunto de dados
@@ -140,8 +174,17 @@ PARÂMETROS DE ENTRADA
       Descrição: Número de repetições. Cada round gera um novo array
                  aleatório independente, recalcula os limites e executa
                  o histograma. Usado para obter médias estáveis de tempo.
-
-
+                 
+ -tb2                                    (essa opcao foi adicionada na v0.2)
+      parametro ao final do comando
+      (esse parametro pode ou nao ser colocado pelo usuario)
+      SE usuario especificar a opcao -tb2 na linha de comando:
+     voce deve usar a funcao gen_test_data_balanced2 dada no ANEXO 4 para gerar os dados
+     em uma distribuicao "balanceada"
+     obs: -tb2 significa teste com entrada "balanceada"
+     CASO -tb2 NAO seja especificado os dados de entrada devem ser
+     numeros aleatorios long long gerados com a funcao rand64() dada.
+            
 
 SELEÇÃO DE PIVÔS (nova versao, mais simples, mas faz o mesmo efeito. v0.1)
 ----------------
@@ -188,11 +231,16 @@ Para cada round r = 1..nr o programa executa os seguintes passos:
       (incluindo main como thread trabalhadora - i.e. worker). O tempo T(N thr) é medido.
 
   Passo 6 — Verificação de corretude
-      hist_1[b] deve ser igual a hist_n[b] para todo b. Um mismatch
-      indica bug no pool de threads ou na construção dos limites.
+      A nova funcao de verificacao de resultados foi DADA pelo prof.
+      (estah no ANEXO 2 ao final dessa especificacao)
+      
+         Voce DEVE usar essa funcao para verificar os resultados
+         e reportar erros, conforme especificado
+         
+         É uma funcao MAIS completa do que a verificacao simples anterior.
+  
 
-
-O QUE O PROGRAMA REPORTA
+O QUE O PROGRAMA REPORTA  (mais detalhes da saida no ANEXO 1)  v0.2
 -------------------------
 
   Por round (tabela):
@@ -212,6 +260,10 @@ O QUE O PROGRAMA REPORTA
         (Mega Elementos Por Segundo)
       - Speedup médio e eficiência paralela (speedup / nthreads × 100%)
       - Resultado global de corretude
+      
+OBS:                                                             (v0.2)      
+  A especificacao DETALHADA (exemplo) da saida do programa está  (v0.2)
+  descrita no final dessa especicacao. (ANEXO 1)                (v0.2)
 
 
 CONSTRUÇÃO DOS LIMITES — DETALHES
@@ -238,9 +290,12 @@ O código percorre os limites da esquerda para a direita e,
 sempre que encontra um limite que não é estritamente maior que o anterior, 
 força-o a ser exatamente Limits[k-1] + 1:
 
-for (int k = 1; k <= nbins; k++)
-    if (limits[k] <= limits[k - 1])
-        limits[k] = limits[k - 1] + 1;
+for (int k = 1; k <= nbins - 1; k++)       // novo codigo para o empurrao suave (v0.2)
+        if (limits[k] <= limits[k - 1])
+            if (limits[k - 1] < LLONG_MAX - 1)
+                limits[k] = limits[k - 1] + 1;
+            else
+                limits[k] = limits[k - 1];
         
 O efeito é empurrar o limite para a direita o mínimo necessário 
 — daí o nome (empurrão suave).
@@ -250,7 +305,9 @@ O efeito é empurrar o limite para a direita o mínimo necessário
 
 GARANTIA DE CACHE FRIO
 -----------------------
-
+  LLC = Last Level Cache  (é o cache mais proximo da RAM, tipo nivel 3 na nossa maquina)
+  Aqui vamos usar LLC para significar o tamanho (em bytes) do cache LLC da maquina usada
+  
   Um buffer de evicção de 3 × LLC bytes é alocado e pré-faultado
   (memset) antes do loop de rounds. Entre cada par de medições
   cronometradas, o buffer é lido sequencialmente para despejar data e
@@ -267,8 +324,8 @@ EXEMPLO DE USO
   Compilar:
       gcc -O3 -o parallel-histo parallel-histo.c -lpthread
 
-  1M elementos, 1024 pivôs, 32 bins, 8 threads, 10 rounds, rp:
-      ./parallel-histo 1000000 1024 32 8 10
+  8M elementos, 1024 pivôs, 32 bins, 8 threads, 10 rounds, rp:
+      ./parallel-histo 8000000 1024 32 8 10
 
 
 COMPLEXIDADE
@@ -344,5 +401,378 @@ Complexidade
 . Tempo: O(nelements × log(nbins) / nthreads) — busca binária por elemento, paralelismo perfeito
 .  Espaço extra: O(nbins × nthreads) — histogramas privados por thread
 
+--------------- ANEXOS --------------- 
+esses anexos foram incluidos na (v0.2)
+--------------------------------------
+ANEXO 1) Especificacao DETALHADA (exemplo) da saida do programa
+
+Abaixo temos um exemplo de comando e sua saida.
+Voce DEVE seguir esse fomato.
+Esse formato foi projetado para:
+- ser facil de incluir na planilha.
+  NOTE que temos varios caracteres separadores:
+    | ; :
+  ASSIM ao fazer paste dessa saida na planilha
+  podemos mandar usar esses 3 caracteres como separadores
+  e os campos estarao em locais adequados 
+  e bem legiveis na planilha  
+   
+- esse formato tem todas as infos necessarias
+
+EXEMPLO 1 de saida (versao 1 do prof):
+-----------------
+
+./parallel-histo 16000000 1024 8 8 10 -tb2
+
+=== Parallel Histogram — Scalability Test (Persistent Thread Pool) ===
+  Elements : 16000000  |  Pivots : 1024  |  Bins : 8  |  Threads : 8  |  Rounds : 10  |  Input : uniform random in [0,nbins) (-tb2)
+  LLC size : 6 MiB  |  Eviction buffer : 18 MiB
+
+  --- Round 1: first 8 partitions ---
+   Bin  ;          Lo (inclusive)  ;          Hi (exclusive)  ;         Count
+     0  ;    -9223372036854775808  ;                       1  ;       2000000
+     1  ;                       1  ;                       2  ;       2000000
+     2  ;                       2  ;                       3  ;       2000000
+     3  ;                       3  ;                       4  ;       2000000
+     4  ;                       4  ;                       5  ;       2000000
+     5  ;                       5  ;                       6  ;       2000000
+     6  ;                       6  ;                       7  ;       2000000
+     7  ;                       7  ;     9223372036854775807  ;       2000000
+
+  Round ;  T(bl_ser) s ;  T(1 thr) s ;   T(N thr) s ;    Speedup ; OK?
+  ----- ;------------ ;------------ ;------------ ;------------ ;---------- ; ----
+  1     ;     0.000413 ;     0.336820 ;     0.097682 ;      3.448 ; OK
+  2     ;     0.000455 ;     0.336703 ;     0.094710 ;      3.555 ; OK
+  3     ;     0.000451 ;     0.336921 ;     0.094508 ;      3.565 ; OK
+  4     ;     0.000460 ;     0.336924 ;     0.095454 ;      3.530 ; OK
+  5     ;     0.000452 ;     0.336941 ;     0.094948 ;      3.549 ; OK
+  6     ;     0.000445 ;     0.312615 ;     0.092944 ;      3.363 ; OK
+  7     ;     0.000450 ;     0.312816 ;     0.091369 ;      3.424 ; OK
+  8     ;     0.000450 ;     0.320334 ;     0.091156 ;      3.514 ; OK
+  9     ;     0.000451 ;     0.336911 ;     0.095441 ;      3.530 ; OK
+  10    ;     0.000450 ;     0.320033 ;     0.091786 ;      3.487 ; OK
+  ----- ;------------ ;------------ ;------------ ;------------ ;---------- ; ----
+  AVG   ;     0.000448 ;     0.328702 ;     0.094000 ;      3.496 ; OK
+
+=== Summary ===
+  Avg build_limits serial   : 0.000448 ; s   ;   0.1% ; of T(1 thr) |   0.5% ; of T(N thr)
+
+  Avg time  (1 thread )     : 0.328702 ; s   ; 48.68 ; MEPS
+  Avg time  (8 threads)    : 0.094000 ; s   ; 170.21 ; MEPS
+  Avg histogram speedup     : 3.496x
+
+  Parallel efficiency:
+    with nthreads   ( 8) :  43.7%
+
+  Overall correctness       : PASS
 
 
+EXEMPLO 2 de saida (versao 1 do prof):
+-----------------
+
+./parallel-histo 16000000 1000 32 8 10 -tb2
+
+=== Parallel Histogram — Scalability Test (Persistent Thread Pool) ===
+  Elements : 16000000  |  Pivots : 1024  |  Bins : 32  |  Threads : 8  |  Rounds : 10  |  Input : uniform random in [0,nbins) (-tb2)
+  LLC size : 6 MiB  |  Eviction buffer : 18 MiB
+
+  --- Round 1: first 8 partitions ---
+   Bin  ;          Lo (inclusive)  ;          Hi (exclusive)  ;         Count
+     0  ;    -9223372036854775808  ;                       1  ;        500000
+     1  ;                       1  ;                       2  ;        500000
+     2  ;                       2  ;                       3  ;        500000
+     3  ;                       3  ;                       4  ;        500000
+     4  ;                       4  ;                       5  ;        500000
+     5  ;                       5  ;                       6  ;        500000
+     6  ;                       6  ;                       7  ;        500000
+     7  ;                       7  ;                       8  ;        500000
+  ... (24 more bins not shown)
+
+  Round ;  T(bl_ser) s ;   T(1 thr) s ;   T(N thr) s ;    Speedup ; OK?
+  ----- ;------------ ;------------ ;------------ ;---------- ; ----
+  1     ;     0.000420 ;     0.588637 ;     0.089546 ;      6.574 ; OK
+  2     ;     0.000457 ;     0.583044 ;     0.083257 ;      7.003 ; OK
+  3     ;     0.000457 ;     0.581102 ;     0.117695 ;      4.937 ; OK
+  4     ;     0.000458 ;     0.583765 ;     0.086012 ;      6.787 ; OK
+  5     ;     0.000457 ;     0.580553 ;     0.088410 ;      6.567 ; OK
+  6     ;     0.000462 ;     0.580867 ;     0.087783 ;      6.617 ; OK
+  7     ;     0.000457 ;     0.583166 ;     0.087919 ;      6.633 ; OK
+  8     ;     0.000457 ;     0.579175 ;     0.088441 ;      6.549 ; OK
+  9     ;     0.000464 ;     0.583555 ;     0.135766 ;      4.298 ; OK
+  10    ;     0.000459 ;     0.583082 ;     0.087703 ;      6.648 ; OK
+  ----- ;------------ ;------------ ;------------ ;---------- ; ----
+  AVG   ;     0.000455 ;     0.582695 ;     0.095253 ;      6.261 ; OK
+
+=== Summary ===
+  Avg build_limits serial   : 0.000455 ; s   ;   0.1% ; of T(1 thr) |   0.5% ; of T(N thr)
+
+  Avg time  (1 thread )     : 0.582695 ; s   ; 27.46 ; MEPS
+  Avg time  (8 threads)    : 0.095253 ; s   ; 167.97 ; MEPS
+  Avg histogram speedup     : 6.261x
+
+  Parallel efficiency:
+  with nthreads   ( 8) :  78.3%
+
+  Overall correctness       : PASS
+  
+--------------------------------------------------
+EXEMPLO 2 de saida (versao 2 do prof): 
+note que: essa VERSAO acelera menos MAS É MAIS RAPIDA!!
+Porque acelera menos ?
+     Porque infelizmente a melhoria foi em um aspecto 
+     que tambem acelera a versao sequencial.
+-----------------
+
+./parallel-histo 16000000 1024 8 8 1 -tb2
+
+=== Parallel Histogram — Scalability Test (Persistent Thread Pool) ===
+  Elements : 16000000  |  Pivots : 1024  |  Bins : 8  |  Threads : 8  |  Rounds : 10  |  Input : uniform random in [0,nbins) (-tb2)
+  LLC size : 6 MiB  |  Eviction buffer : 18 MiB
+
+  --- Round 1: first 8 partitions ---
+   Bin  ;          Lo (inclusive)  ;          Hi (exclusive)  ;         Count
+     0  ;    -9223372036854775808  ;                       1  ;       2000000
+     1  ;                       1  ;                       2  ;       2000000
+     2  ;                       2  ;                       3  ;       2000000
+     3  ;                       3  ;                       4  ;       2000000
+     4  ;                       4  ;                       5  ;       2000000
+     5  ;                       5  ;                       6  ;       2000000
+     6  ;                       6  ;                       7  ;       2000000
+     7  ;                       7  ;     9223372036854775807  ;       2000000
+
+  Round ;  T(bl_ser) s ;    T(1 thr) s ;   T(N thr) s ;    Speedup ; OK?
+  ----- ;------------ ;----------- ;------------ ;---------- ; ----
+  1     ;     0.000414 ;     0.155230 ;     0.062293 ;      2.492 ; OK
+  2     ;     0.000448 ;     0.155335 ;     0.061540 ;      2.524 ; OK
+  3     ;     0.000446 ;     0.157256 ;     0.058388 ;      2.693 ; OK
+  4     ;     0.000449 ;     0.155156 ;     0.061176 ;      2.536 ; OK
+  5     ;     0.000447 ;     0.154976 ;     0.060425 ;      2.565 ; OK
+  6     ;     0.000449 ;     0.155131 ;     0.063304 ;      2.451 ; OK
+  7     ;     0.000451 ;     0.155190 ;     0.059686 ;      2.600 ; OK
+  8     ;     0.000446 ;     0.154985 ;     0.062953 ;      2.462 ; OK
+  9     ;     0.000447 ;     0.155370 ;     0.062077 ;      2.503 ; OK
+  10    ;     0.000454 ;     0.155101 ;     0.059509 ;      2.606 ; OK
+  ----- ;------------ ;----------- ;------------ ;---------- ; ----
+  AVG   ;     0.000445 ;     0.155373 ;     0.061135 ;      2.543 ; OK
+
+=== Summary ===
+  Avg build_limits serial   : 0.000445 ; s   ;   0.3% ; of T(1 thr) |   0.7% ; of T(N thr)
+
+  Avg time  (1 thread )     : 0.155373 ; s   ; 102.98 ; MEPS
+  Avg time  (8 threads)    : 0.061135 ; s   ; 261.72 ; MEPS
+  Avg histogram speedup     : 2.543x
+
+  Parallel efficiency:
+  with nthreads   ( 8) :  31.8%
+
+  Overall correctness       : PASS
+
+------------------------------------------------------
+ANEXO 2) A nova funcao de verificacao de resultados foi DADA pelo prof.
+         Voce DEVE usar essa funcao para verificar os resultados
+         e reportar erros, conforme especificado
+         
+         É uma funcao MAIS completa do que a verificacao simples anterior.
+
+/* ------------------------------------------------------------------ */
+/* verify_histogram: three-stage correctness check                     */
+/*                                                                      */
+/* Stage 1: hist_1thr[b] == hist_nthr[b] for all b.                   */
+/* Stage 2: (only if stage 1 passes) serial recount of hist_nthr       */
+/*          using a simple linear scan — independent of find_bin and   */
+/*          the parallel pool. Reports any bin with wrong count.       */
+/* Stage 3: (only if stages 1+2 pass) sum of all bins == nelements.   */
+/*                                                                      */
+/* Returns 1 if ALL three stages pass, 0 otherwise.                   */
+/* ------------------------------------------------------------------ */
+static int verify_histogram(
+    const long long *data,
+    long long        nelements,
+    const long long *limits,
+    int              nbins,
+    const long long *hist_1thr,
+    const long long *hist_nthr)
+{
+    /* Stage 1: 1-thread vs N-thread */
+    int s1_ok = 1;
+    for (int b = 0; b < nbins; b++) {
+        if (hist_1thr[b] != hist_nthr[b]) {
+            fprintf(stderr,
+                    "  VERIFY FAIL stage1: bin %d  1thr=%lld  Nthr=%lld\n",
+                    b, hist_1thr[b], hist_nthr[b]);
+            s1_ok = 0;
+        }
+    }
+    if (!s1_ok) return 0;
+
+    /* Stage 2: serial recount vs hist_nthr
+     * Uses a simple linear scan: walk limits[] left to right.
+     * Completely independent of find_bin and the thread pool.         */
+    long long *recount = (long long *)calloc(nbins, sizeof(long long));
+    if (!recount) { perror("calloc recount"); return 0; }
+
+    for (long long i = 0; i < nelements; i++) {
+        long long v = data[i];
+        int b = 0;
+        /* Linear scan: find rightmost bin whose left edge <= v */
+        while (b < nbins - 1 && v >= limits[b + 1]) b++;
+        recount[b]++;
+    }
+
+    int s2_ok = 1;
+    for (int b = 0; b < nbins; b++) {
+        if (recount[b] != hist_nthr[b]) {
+            fprintf(stderr,
+                    "  VERIFY FAIL stage2: bin %d  recount=%lld  Nthr=%lld\n",
+                    b, recount[b], hist_nthr[b]);
+            s2_ok = 0;
+        }
+    }
+    free(recount);
+    if (!s2_ok) return 0;
+
+    /* Stage 3: invariant — sum of bins == nelements */
+    long long total = 0;
+    for (int b = 0; b < nbins; b++) total += hist_nthr[b];
+    if (total != nelements) {
+        fprintf(stderr,
+                "  VERIFY FAIL stage3: sum=%lld expected=%lld\n",
+                total, nelements);
+        return 0;
+    }
+
+    return 1;   /* all stages passed */
+}
+--------------------------------------
+ANEXO 3 - geradores de numeros aleatorios
+
+voce vai usar rand64() abaixo para gerar os dados de entrada.
+voce vai usar rand63() abaixo no codigo de build_limits, 
+   pois rand63() eh mais rapida e serve no caso de build limits
+   para gerar cada jitter
+   
+/*
+ * rand63: Returns a uniform random unsigned 64-bit integer
+ *         in the range [0, 2^63 - 1] using 63 random bits.
+ *
+ * rand() is guaranteed to produce at least 15 random bits.
+ * We extract up to 21 bits per call (3 × 21 = 63 bits).
+ * This gives excellent uniformity for generating numbers in [0, stride)
+ * where stride <= LLONG_MAX (i.e. any positive long long).
+ *
+ * Recommended usage for uniform random value in [0, stride):
+ * given that stride is long long
+ *
+ * Use: 
+ *      long long jitter = (long long)(rand63() % (unsigned long long)stride);
+ * to get a uniform random in [0, stride) annd assign to jitter. 
+ */
+static inline unsigned long long rand63(void)
+{
+    return (  (unsigned long long)(unsigned)rand()        )
+           | ( (unsigned long long)(unsigned)rand() << 21 )
+           | ( (unsigned long long)(unsigned)rand() << 42 );
+}
+   
+    
+/*
+ * Generate a uniformly distributed random signed 64-bit integer
+ * (full range of long long, including negative values).
+ *
+ * rand() is required to return at least 15 random bits.
+ * We use five calls:
+ *   - 4 calls × 15 bits = 60 bits
+ *   - 1 final call masked to 4 bits
+ * Total: 64 random bits.
+ *
+ * All operations are done in unsigned long long to avoid
+ * undefined behaviour from signed integer overflow. The resulting
+ * bit pattern is later reinterpreted as signed long long.
+ */
+static inline long long rand64(void)
+{
+    union {
+        unsigned long long u;
+        long long          s;
+    } x;
+
+    x.u = ((unsigned long long)(unsigned)rand() << 49)
+        | ((unsigned long long)(unsigned)rand() << 34)
+        | ((unsigned long long)(unsigned)rand() << 19)
+        | ((unsigned long long)(unsigned)rand() <<  4)
+        | ((unsigned long long)(unsigned)rand() & 0xF);
+
+    return x.s;
+}
+-----------------------------------------------
+ANEXO 4 - funcao gen_test_data_balanced2 foi dada abaixo
+
+SE usuario especificar a opcao -tb2 na linha de comando:
+     voce deve usar a funcao gen_test_data_balanced2 dada nesse ANEXO 4 para gerar os dados
+     em uma distribuicao "balanceada"
+     obs: -tb2 significa teste com entrada "balanceada"
+     CASO -tb2 NAO seja especificado os dados de entrada devem ser
+     numeros aleatorios long long gerados com a funcao rand64() dada.
+     
+/*
+ * gen_test_data_balanced2: random input with maximum imbalance of 1.
+ *
+ * Each bin receives either floor(nelements/nbins) or
+ * floor(nelements/nbins)+1 elements — the most balanced histogram
+ * achievable with uniform-in-[0,nbins) values.
+ *
+ * Algorithm:
+ *   1. Fill data[i] = i, so values 0..nelements-1 are each present once.
+ *   2. Fisher-Yates shuffle to randomise the order.
+ *   3. Change each value modulo nbins.
+ *
+ * After step 3, value b appears in data[] exactly:
+ *   - floor(nelements/nbins) + 1  times,  for b < nelements % nbins
+ *   - floor(nelements/nbins)      times,  for b >= nelements % nbins
+ * Maximum bin imbalance is therefore exactly 1.
+ */
+static void gen_test_data_balanced2(long long *data,
+                                     long long nelements,
+                                     int nbins)
+{
+    if (nelements <= 0 || nbins <= 0) return;
+
+    /* 1. Fill with 0, 1, 2, ..., nelements-1 */
+    for (long long i = 0; i < nelements; i++)
+        data[i] = i;
+
+    /* 2. Fisher-Yates shuffle */
+    for (long long i = nelements - 1; i > 0; i--) {
+        long long j = (long long)(rand63() % (unsigned long long)(i + 1));
+        ll_swap(&data[i], &data[j]);
+    }
+
+    /* 3. Change each value of the input to be in [0, nbins) */
+    for (long long i = 0; i < nelements; i++)
+        data[i] %= nbins;
+}
+----------------------------------------
+ANEXO 5 - especificacao da funcao build_limits
+
+O prototipo da funcao build_limits e sua explicacao eh dado nesse ANEXO 5
+Esse funcao é usada para se obter limits a partir de pivots.
+Essa funcao pode ser sequencial, pois é rapida:
+  (toma APENAS cerca de 1% do tempo total da versao paralela)
+
+/* ------------------------------------------------------------------ */
+/* build_limits: jittered-pivot construction (SP2)                    */
+/*                                                                      */
+/*   stride    = n / npivots                                           */
+/*   jitter_i is a random number generated in interval [0, stride)    */
+/*       uses rand63() to generate a random jitter per pivot           */
+/*   Pivots[i] = data[i*stride + jitter_i]                            */
+/*                                                                      */
+/* Option A: limits[0]=LLONG_MIN and limits[nbins]=LLONG_MAX guarantee */
+/* every long long value is classified correctly with no min/max scan. */
+/* ------------------------------------------------------------------ */
+static void build_limits_sp2_serial(const long long *Input, 
+                                    long long n,
+                                    int npivots, 
+                                    int nbins,
+                                    long long *pivots, 
+                                    long long *limits )    
