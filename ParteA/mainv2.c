@@ -96,46 +96,53 @@ static void gen_test_data_balanced2(long long *data, long long nelements, int nb
 }
 
 //define os limites de cada bin do histograma 
-static void build_limits_sp2_serial(
-    const long long *Input,
-    long long n,
-    int npivots,
-    int nbins,
-    long long *pivots,
-    long long *limits)
-{
+/*
+const long long *Input, //vetor de entrada
+    long long n, //tamanho do vetor de entrada 
+    int npivots, //quantidade de pivos
+    int nbins, // quantidade de intervalos (bins)
+    long long *pivots, //vetor p armazenar os pivos
+    long long *limits) //vetor que armazana os limites finais*/ 
+static void build_limits_sp2_serial( const long long *Input, long long n, int npivots, int nbins, long long *pivots, long long *limits){
+    
+    //calcula a distansia media entre cada intervalo
     long long stride = n / npivots;
 
+    //garante que o passo seja pelo menos um
     if (stride <= 0)
         stride = 1;
 
+    //gera um deslocamneto aleatório p não enviesar a amostra 
     for (int i = 0; i < npivots; i++) {
 
         long long jitter =
             (long long)(rand63() %
             (unsigned long long)stride);
-
+        //calcula o indice final 
         long long idx = i * stride + jitter;
-
+        //proteção p não acessar memória fora do limite d vetor input
         if (idx >= n)
             idx = n - 1;
 
         pivots[i] = Input[idx];
     }
-
+    //ordena os pivos
     qsort(pivots, npivots, sizeof(long long), comparar_long_long);
 
+    //primeiro bin: menos infinito
     limits[0] = LLONG_MIN;
+    //ultimo bin: mais infinito
     limits[nbins] = LLONG_MAX;
+    //distribui os pivôs ordenados entre os limites ds bins
 
     for (int i = 1; i < nbins; i++) {
-
+        //interpola qual pivo será o divisor de cada bin
         int idx =
             (int)(((long long)i * (npivots - 1)) / nbins);
 
         limits[i] = pivots[idx];
     }
-
+    //sanity
     for (int k = 1; k <= nbins - 1; k++) {
 
         if (limits[k] <= limits[k - 1]) {
