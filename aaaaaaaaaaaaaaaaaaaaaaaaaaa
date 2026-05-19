@@ -1,0 +1,21 @@
+Host w00-orv
+User brendapinpp
+HostName 200.238.130
+Port 4451
+ProxyCommand ssh -4 -W %h:%p bpr21@orval.c3sl.ufpr.br
+
+Host w00-mac
+User brendapinpp
+HostName 200.238.130
+Port 4451
+ProxyCommand ssh -4 -W %h:%p bpr21@macalan.c3sl.ufpr.br
+
+Host w00
+User brendapinpp
+HostName 200.238.130
+Port 4451
+
+Host macalan
+User bpr21
+HostName macalan.c3sl.ufpr.br
+#IdentifyFile /home/bpr21/.ssh/macalan_id_rsa
